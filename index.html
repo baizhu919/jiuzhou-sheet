@@ -2,7 +2,7 @@
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>九洲 · 非凡者档案</title>
-<link rel="stylesheet" href="style.css?v=52">
+<link rel="stylesheet" href="style.css?v=53">
 </head><body>
 <header><div class="bar">
   <div class="brand">九 洲<small>非凡者档案 · 第五纪 元历 320 年</small></div>
@@ -119,29 +119,40 @@
   </section>
 
   <section>
-    <h2><span class="no">⑪</span>关系与线索</h2>
+    <h2><span class="no">⑪</span>货币</h2>
+    <div class="row two">
+      <label>金元<input data-k="money.gold" type="number" min="0" value="0"></label>
+      <label>银铢<input data-k="money.silver" type="number" min="0" value="0"></label>
+      <label>铜钱<input data-k="money.copper" type="number" min="0" value="0"></label>
+      <label>折合铜钱<input id="outMoney" readonly></label>
+    </div>
+    <p class="hint">1 金元 ＝ 10 银铢 ＝ 100 铜钱。</p>
+  </section>
+
+  <section>
+    <h2><span class="no">⑫</span>关系与线索</h2>
     <div id="relList"></div>
     <div class="tools"><button id="addRel">+ 添加</button></div>
   </section>
 
   <section>
-    <h2><span class="no">⑫</span>驯养记录</h2>
+    <h2><span class="no">⑬</span>驯养记录</h2>
     <div id="beastList"></div>
     <div class="tools"><button id="addBeast">+ 添加</button></div>
   </section>
 
   <section>
-    <h2><span class="no">⑬</span>角色简介</h2>
+    <h2><span class="no">⑭</span>角色简介</h2>
     <textarea data-k="profile.desc" style="min-height:140px" placeholder="写下对您角色的概括性介绍，包括他们的过去、经历和个性特征。请注意，角色真正的性格和背景特质应当在游戏中体现出来，这里只是简短的概括和提示。"></textarea>
   </section>
 
   <section>
-    <h2><span class="no">⑭</span>角色特质</h2>
+    <h2><span class="no">⑮</span>角色特质</h2>
     <textarea data-k="profile.traits" style="min-height:140px" placeholder="写下您角色的性别、年龄、外貌和服装等外观特征。如果您的角色有什么特征或者与众不同之处，也可以记录在这里。"></textarea>
   </section>
 
   <section class="wide">
-    <h2><span class="no">⑮</span>冒险笔记</h2>
+    <h2><span class="no">⑯</span>冒险笔记</h2>
     <textarea data-k="profile.notes" style="min-height:170px" placeholder="写下您角色经历的重大事件，值得注意的线索，目前角色的状态和思考，或者其他值得记录的重要信息。"></textarea>
   </section>
 </main>
@@ -169,6 +180,6 @@
   </div>
 </div>
 <datalist id="raceList"></datalist>
-<script src="data.js?v=52"></script>
-<script src="app.js?v=52"></script>
+<script src="data.js?v=53"></script>
+<script src="app.js?v=53"></script>
 </body></html>
