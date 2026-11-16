@@ -100,7 +100,7 @@ function rels(){ var h=""; S.rel.forEach(function(x,i){ h += "<div class=\"entry
 function beasts(){ var h=""; S.beasts.forEach(function(x,i){ h += "<div class=\"entry rel\"><input placeholder=\"名称\" value=\""+esc(x.name)+"\" data-be=\""+i+"\" data-f=\"name\"><input placeholder=\"普通/神话\" value=\""+esc(x.type)+"\" data-be=\""+i+"\" data-f=\"type\"><input placeholder=\"来源\" value=\""+esc(x.source)+"\" data-be=\""+i+"\" data-f=\"source\"><input placeholder=\"能力/用途\" value=\""+esc(x.ability)+"\" data-be=\""+i+"\" data-f=\"ability\"><button data-del=\"beast\" data-i=\""+i+"\">×</button></div>"; }); $("#beastList").innerHTML=h; $$("[data-be]").forEach(function(el){ el.addEventListener("input", function(){ S.beasts[el.dataset.be][el.dataset.f]=el.value; scheduleSave(); }); }); $$("[data-del=\"beast\"]").forEach(function(b){ b.onclick=function(){ S.beasts.splice(b.dataset.i,1); render(); scheduleSave(); }; }); }
 function inv(){ var h=""; S.inv.forEach(function(x,i){ h += "<div class=\"entry\"><input placeholder=\"物品\" value=\""+esc(x.name)+"\" data-inv=\""+i+"\" data-f=\"name\"><input placeholder=\"数量\" value=\""+esc(x.qty)+"\" data-inv=\""+i+"\" data-f=\"qty\"><input placeholder=\"说明\" value=\""+esc(x.note)+"\" data-inv=\""+i+"\" data-f=\"note\" style=\"grid-column:span 2\"><button data-del=\"inv\" data-i=\""+i+"\">×</button></div>"; }); $("#invList").innerHTML=h; $$("[data-inv]").forEach(function(el){ el.addEventListener("input", function(){ S.inv[el.dataset.inv][el.dataset.f]=el.value; scheduleSave(); }); }); $$("[data-del=\"inv\"]").forEach(function(b){ b.onclick=function(){ S.inv.splice(b.dataset.i,1); render(); scheduleSave(); }; }); }
 
-function propsBoxes(){ var box=$("#propsBox"); if(!box) return; var n=Math.max(0,Math.min(3,Number(S.props)||0)); var html=""; for(var i=0;i<3;i++){ html+='<input type="checkbox" data-prop="'+i+'"'+(i<n?' checked':'')+'>'; } box.innerHTML=html; $("[data-prop]").forEach(function(cb){ cb.onchange=function(){ var used=$("[data-prop]").filter(function(x){return x.checked;}).length; S.props=used; scheduleSave(); }; }); }
+function propsBoxes(){ var box=$("#propsBox"); if(!box) return; var n=Math.max(0,Math.min(3,Number(S.props)||0)); var html=""; for(var i=0;i<3;i++){ html+='<input type="checkbox" data-prop="'+i+'"'+(i<n?' checked':'')+'>'; } box.innerHTML=html; }
 
 function weapons(){ var h=""; S.weapons.forEach(function(x,i){ h += "<div class=\"entry\"><input placeholder=\"武器\" value=\""+esc(x.name)+"\" data-wp=\""+i+"\" data-f=\"name\"><input placeholder=\"伤害骰（1d6）\" value=\""+esc(x.dice)+"\" data-wp=\""+i+"\" data-f=\"dice\"><input placeholder=\"近战/远程\" value=\""+esc(x.kind)+"\" data-wp=\""+i+"\" data-f=\"kind\"><input placeholder=\"备注\" value=\""+esc(x.note)+"\" data-wp=\""+i+"\" data-f=\"note\" style=\"grid-column:span 2\"><button data-del=\"wp\" data-i=\""+i+"\">×</button></div>"; }); $("#weaponList").innerHTML=h; $$("[data-wp]").forEach(function(el){ el.addEventListener("input", function(){ S.weapons[el.dataset.wp][el.dataset.f]=el.value; scheduleSave(); }); }); $$("[data-del=\"wp\"]").forEach(function(b){ b.onclick=function(){ S.weapons.splice(b.dataset.i,1); render(); scheduleSave(); }; }); }
 
@@ -169,6 +169,11 @@ function guideRender(){
 function guideOpen(){ var w=$("#wizard"); if(!w) return; w.classList.add('on'); guideRender();
   if(!w.dataset.pos){ w.style.left=Math.max(8,(window.innerWidth-w.offsetWidth)/2)+'px'; w.style.top='90px'; w.dataset.pos='1'; } }
 function guideClose(){ var w=$("#wizard"); if(w) w.classList.remove('on'); }
+$("#propsBox").addEventListener("change", function(e){
+  if(!e.target.matches('input[data-prop]')) return;
+  S.props=[].slice.call(this.querySelectorAll('input')).filter(function(x){return x.checked;}).length;
+  scheduleSave();
+});
 $("#btnGuide").onclick=guideOpen;
 $("#wzClose").onclick=guideClose;
 $("#wzPrev").onclick=function(){ if(guideIdx>0){ guideIdx--; guideRender(); } };
