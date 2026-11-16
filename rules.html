@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>九洲 · 判定速查</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:12px}
+.out{margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:10px;background:#fcfcfd;font-size:14px;line-height:1.8}
+.out b{font-size:20px;color:var(--accent)}
+.small{font-size:12px;color:var(--sub)}
+</style>
+</head><body>
+<header><div class="bar">
+  <div class="brand">九 洲<small>判定速查 · 元历 320 年</small></div>
+  <div class="spacer"></div>
+  <a class="btnlink" href="index.html">← 回到角色卡</a>
+</div></header>
+
+<main>
+  <section class="wide">
+    <h2>检定计算器</h2>
+    <div class="calc">
+      <label>挑战值<input id="dc" type="number" value="10" min="1"></label>
+      <label>途径强度（枚 d4）<input id="pow" type="number" value="2" min="0" max="5"></label>
+      <label>标签数（枚 d4）<input id="tag" type="number" value="2" min="0" max="10"></label>
+      <label>时髦骰（枚 d6）<input id="vog" type="number" value="1" min="0" max="3"></label>
+      <label>&nbsp;<button id="roll" class="primary">掷一次</button></label>
+    </div>
+    <div class="out" id="result">填好上面的数，点「掷一次」。</div>
+    <p class="small">一次检定 ＝ 1d20（定骰）＋ 若干 d4（加骰）＋ 若干 d6（时髦骰）＞ 挑战值。定骰 20：通过则成功等级 +1；定骰 1：通过则成功等级 −1。</p>
+  </section>
+
+  <section>
+    <h2>成功等级</h2>
+    <table><thead><tr><th>超出挑战值</th><th>成功等级</th></tr></thead><tbody>
+    <tr><td>1–5</td><td>1</td></tr><tr><td>6–10</td><td>2</td></tr><tr><td>11–15</td><td>3</td></tr><tr><td>每再 +5</td><td>+1</td></tr></tbody></table>
+    <p class="small">容易＝要求 1 级｜中等＝2 级｜非常困难＝3 级。</p>
+  </section>
+
+  <section>
+    <h2>加骰来源</h2>
+    <table><thead><tr><th class="l">来源</th><th>加骰</th></tr></thead><tbody>
+    <tr><td class="l">途径强度</td><td>凡人 0｜序列 8–9 得 1｜5–7 得 2｜3–4 得 3｜1–2 得 4｜0 得 5（每点 1 枚 d4）</td></tr>
+    <tr><td class="l">标签</td><td>每个序列 1 个；用几个序列的能力就激活几个，各 1 枚 d4</td></tr>
+    <tr><td class="l">时髦骰</td><td>DH 依扮演给 1–3 枚 d6</td></tr>
+    </tbody></table>
+  </section>
+
+  <section>
+    <h2>衍生值</h2>
+    <table><thead><tr><th class="l">项</th><th>公式</th></tr></thead><tbody>
+    <tr><td class="l">生命值</td><td>6 ＋ 体魄强度</td></tr>
+    <tr><td class="l">灵性上限</td><td>5 ＋ 智慧 ×2 ＋ 心魂</td></tr>
+    <tr><td class="l">失控上限</td><td>心魂强度 ×3</td></tr>
+    <tr><td class="l">闪避</td><td>10 ＋ 体魄强度 − 甲重（无/轻 0、中 1、重 2）</td></tr>
+    <tr><td class="l">属性强度</td><td>1–2 得 1；3–4 得 2；5–6 得 3；7–8 得 4；9 得 5；9 以上每 +1 点再 +1</td></tr>
+    </tbody></table>
+  </section>
+
+  <section>
+    <h2>护甲与阈值</h2>
+    <table><thead><tr><th>护甲</th><th>抵挡</th><th>耐久</th><th>中伤阈值</th><th>重伤阈值</th></tr></thead><tbody>
+    <tr><td>无甲</td><td>0</td><td>—</td><td>4 ＋ L</td><td>8 ＋ 2L</td></tr>
+    <tr><td>轻甲</td><td>1</td><td>4</td><td>5 ＋ L</td><td>11 ＋ 2L</td></tr>
+    <tr><td>中甲</td><td>2</td><td>6</td><td>6 ＋ L</td><td>13 ＋ 2L</td></tr>
+    <tr><td>重甲</td><td>3</td><td>8</td><td>7 ＋ L</td><td>15 ＋ 2L</td></tr>
+    </tbody></table>
+    <p class="small">L＝位格等级（序列 9 算 1……序列 0 算 10）。伤害 ＜ 中伤：扣 1 点；中伤～重伤：扣 2 点；≥ 重伤：扣 3 点。耐久每挨一次 −1，修理每小时 +1，休息不回。</p>
+  </section>
+
+  <section>
+    <h2>武器伤害</h2>
+    <table><thead><tr><th class="l">武器</th><th>伤害骰</th></tr></thead><tbody>
+    <tr><td class="l">拳头</td><td>1d3</td></tr><tr><td class="l">小刀、火把</td><td>1d4</td></tr>
+    <tr><td class="l">中型刀</td><td>1d6</td></tr><tr><td class="l">弓</td><td>1d6</td></tr>
+    <tr><td class="l">手枪</td><td>1d8</td></tr><tr><td class="l">步枪</td><td>2d6</td></tr></tbody></table>
+    <p class="small">伤害 ＝ 武器骰 ＋ 成功等级加值（0/+2/+4…）＋ 近战半强度 − 护甲抵挡。</p>
+  </section>
+
+  <section>
+    <h2>能力伤害骰</h2>
+    <table><thead><tr><th>序列</th><th>伤害骰</th></tr></thead><tbody>
+    <tr><td>9</td><td>1d4</td></tr><tr><td>8</td><td>2d4</td></tr><tr><td>7</td><td>3d4</td></tr>
+    <tr><td>6</td><td>3d4+1d6</td></tr><tr><td>5</td><td>3d4+2d6</td></tr>
+    <tr><td>4</td><td>3d4+2d6+1d12</td></tr><tr><td>3</td><td>3d4+2d6+2d12</td></tr>
+    <tr><td>2</td><td>3d4+2d6+2d12+1d20</td></tr><tr><td>1</td><td>3d4+2d6+2d12+2d20</td></tr><tr><td>0</td><td>3d4+2d6+2d12+3d20</td></tr>
+    </tbody></table>
+    <p class="small">结算同武器；范围／多目标骰数减半（至少 1 颗）；灵性、精神伤害共用此表。</p>
+  </section>
+
+  <section>
+    <h2>位格与属性上限</h2>
+    <table><thead><tr><th>位格</th><th>序列</th><th>属性上限</th></tr></thead><tbody>
+    <tr><td>未服</td><td>—</td><td>4</td></tr>
+    <tr><td>低序列</td><td>9 / 8 / 7</td><td>5 / 6 / 7</td></tr>
+    <tr><td>中序列</td><td>6 / 5</td><td>8 / 9</td></tr>
+    <tr><td>半神</td><td>4</td><td>10</td></tr><tr><td>圣者</td><td>3</td><td>11</td></tr>
+    <tr><td>天使</td><td>2 / 1</td><td>12 / 13</td></tr><tr><td>真神</td><td>0</td><td>14</td></tr>
+    </tbody></table>
+  </section>
+</main>
+<footer>规则速查 · 数据与《九洲 TRPG 规则全书》同步；有出入以规则书为准。</footer>
+<script>
+function d(n){ return 1 + Math.floor(Math.random()*n); }
+document.getElementById('roll').onclick = function(){
+  const dc=Number(document.getElementById('dc').value)||10;
+  const pow=Number(document.getElementById('pow').value)||0;
+  const tag=Number(document.getElementById('tag').value)||0;
+  const vog=Number(document.getElementById('vog').value)||0;
+  const base=d(20);
+  let adds=[], total=base;
+  for(let i=0;i<pow+tag;i++){ const r=d(4); adds.push(r); total+=r; }
+  let extras=[];
+  for(let i=0;i<vog;i++){ const r=d(6); extras.push(r); total+=r; }
+  const over=total-dc;
+  let lv=0; if(over>0) lv=Math.ceil(over/5);
+  let note='';
+  if(base===20 && over>0){ lv+=1; note='定骰 20：成功等级 +1'; }
+  if(base===1 && over>0){ lv-=1; note='定骰 1：成功等级 −1'; }
+  document.getElementById('result').innerHTML =
+    '定骰 <b>'+base+'</b>　加骰 ['+(adds.join(', ')||'无')+']　时髦 ['+(extras.join(', ')||'无')+']<br>'+
+    '总值 <b>'+total+'</b>　挑战值 '+dc+'　超出 '+(over>0?over:0)+'<br>'+
+    (over>0 ? '成功，等级 <b>'+lv+'</b>' : '失败') + (note? '<br><span class="small">'+note+'</span>' : '');
+};
+</script>
+</body></html>
