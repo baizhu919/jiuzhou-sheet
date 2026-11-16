@@ -123,4 +123,61 @@ function toast(m){ var t=$("#toast"); t.textContent=m; t.classList.add("show"); 
 function fill(){ $$("[data-k]").forEach(function(el){ var v=getPath(S,el.dataset.k); if(el.type==="checkbox"){ el.checked=!!v; } else { el.value=(el.type==="number")?(v==null?0:v):(v==null?"":v); } }); }
 renderSlots(); fill(); render();
 window.addEventListener("beforeunload", save);
+
+/* 车卡指引：可拖动小窗 */
+var GUIDE_STEPS = [
+ {t:'身份：姓名、称号、出身', w:'称号是别人叫你的名字，不是本名。',
+  b:'<p>姓名随便起；称号用一两字，比如「白霜」「铁卷」「梦枕」。</p><p><b>出身</b>决定你会哪些技能，也决定你从哪拿到魔药：官方非凡者、教会执事、世家子弟、野生非凡者、学者／医师、海商／旅行者，或者自己写一个。</p>',
+  ex:'例：白霜，白家旁支，出身「世家子弟」——礼仪、说服、格斗起步。'},
+ {t:'决定服没服魔药', w:'这是九洲最重要的一次选择。',
+  b:'<p><b>没服</b>：位格「未服」，属性上限 4，生命 6＋体魄强度，闪避 10＋体魄强度。你就是个比常人强一点的人，但能自由选路。</p><p><b>服了</b>：从序列 9 开始，位格「低序列」，上限 5，选一条途径。你会得到那条途径序列 9 的全部能力和 1 个标签。</p>',
+  ex:'例：白霜服了「不眠者」途径的序列 9 魔药，位格低序列，标签 1 个。'},
+ {t:'分属性：9 点，单项 1–5', w:'体魄管身体，智慧管知识与术法，心魂管意志与灵性。',
+  b:'<p>9 点分三项，单项至少 1、最多 5。分完不能反悔，但之后每升一序会再给 2 点。</p><p>强度不是点数：1–2 得 1，3–4 得 2，5–6 得 3，7–8 得 4，9 得 5。</p>',
+  ex:'例：体魄 4（强度 2）、智慧 3（强度 2）、心魂 2（强度 1）。'},
+ {t:'算衍生值', w:'这几项影响你挨几下、还能不能出手。',
+  b:'<ul><li>生命值 ＝ 6 ＋ 体魄强度</li><li>灵性上限 ＝ 5 ＋ 智慧 ×2 ＋ 心魂</li><li>失控上限 ＝ 心魂强度 ×3</li><li>闪避 ＝ 10 ＋ 体魄强度 − 甲重</li></ul>',
+  ex:'例：生命 8；灵性 5＋6＋2＝13；失控 3；未穿甲闪避 12。'},
+ {t:'技能：花掉技能点', w:'技能点 ＝ 体魄 ＋ 智慧。初始都 0。',
+  b:'<p>21 项技能分四类：身体、头脑、社交、灵性。不知道加什么就先点「神秘学」——认途径、辨魔药、看仪式，九洲最常用的就是它。</p>',
+  ex:'例：技能点 7，加神秘学 2、侦查 1、礼仪 1、闪避 1、潜行 1、医术 1。'},
+ {t:'武器与护甲', w:'武器给伤害骰，护甲给抵挡与耐久。',
+  b:'<p>武器：拳 1d3、小刀 1d4、中刀 1d6、弓 1d6、手枪 1d8、步枪 2d6。</p><p>护甲：轻甲 1/4、中甲 2/6、重甲 3/8；甲越重闪避越低。耐久挨一次掉一点，修理才回。</p>',
+  ex:'例：左轮 1d8；轻甲（抵挡 1、耐久 4、闪避不减）。'},
+ {t:'写下能力、关系、笔记', w:'跑团时 DH 先看这一栏，而不是你的数值。',
+  b:'<p>把当前序列的能力名抄到「能力或特性」；写下三个关系（欠谁、谁欠你、谁在找你）和一条冒险理由。</p>',
+  ex:'例：欠白家医馆一条命；答应替闻家送一封信；有个同门在外头找他。'},
+ {t:'对照检查', w:'最后过一遍，缺什么补什么。',
+  b:'<ul class="check"><li>☐ 属性总和是 9，单项 1–5</li><li>☐ 位格、属性上限、标签数对得上序列</li><li>☐ 生命值、灵性、失控、闪避都算过</li><li>☐ 技能加点没超过「体魄＋智慧」</li><li>☐ 有武器、有护甲（或明确不穿）</li><li>☐ 三个关系写了至少一个</li></ul>',
+  ex:'都打勾了，就可以把卡交给 DH 了。'}
+];
+var guideIdx = Number(localStorage.getItem('jz-guide-step')||0);
+if (isNaN(guideIdx) || guideIdx<0 || guideIdx>=GUIDE_STEPS.length) guideIdx = 0;
+function guideRender(){
+  var s=GUIDE_STEPS[guideIdx]; var box=$("#wzBody");
+  box.innerHTML='<h3>'+(guideIdx+1)+'. '+s.t+'</h3><div class="why">'+s.w+'</div>'+s.b+(s.ex?'<div class="ex">'+s.ex+'</div>':'');
+  $("#wzProg").textContent=(guideIdx+1)+' / '+GUIDE_STEPS.length;
+  $("#wzPrev").disabled = guideIdx===0;
+  $("#wzNext").textContent = guideIdx===GUIDE_STEPS.length-1 ? '完成' : '下一步';
+  localStorage.setItem('jz-guide-step', String(guideIdx));
+}
+function guideOpen(){ var w=$("#wizard"); if(!w) return; w.classList.add('on'); guideRender();
+  if(!w.dataset.pos){ w.style.left=Math.max(8,(window.innerWidth-w.offsetWidth)/2)+'px'; w.style.top='90px'; w.dataset.pos='1'; } }
+function guideClose(){ var w=$("#wizard"); if(w) w.classList.remove('on'); }
+$("#btnGuide").onclick=guideOpen;
+$("#wzClose").onclick=guideClose;
+$("#wzPrev").onclick=function(){ if(guideIdx>0){ guideIdx--; guideRender(); } };
+$("#wzNext").onclick=function(){ if(guideIdx<GUIDE_STEPS.length-1){ guideIdx++; guideRender(); } else { guideClose(); } };
+(function(){
+  var head=$("#wzHead"), drag=null;
+  head.addEventListener("pointerdown", function(e){ if(e.target.tagName==="BUTTON") return; var w=$("#wizard");
+    drag={x:e.clientX,y:e.clientY,l:w.offsetLeft,t:w.offsetTop}; try{ head.setPointerCapture(e.pointerId); }catch(err){} });
+  head.addEventListener("pointermove", function(e){ if(!drag) return; var w=$("#wizard");
+    var l=drag.l+(e.clientX-drag.x), t=drag.t+(e.clientY-drag.y);
+    l=Math.max(4, Math.min(window.innerWidth-w.offsetWidth-4, l));
+    t=Math.max(4, Math.min(window.innerHeight-60, t));
+    w.style.left=l+"px"; w.style.top=t+"px"; });
+  head.addEventListener("pointerup", function(){ drag=null; });
+})();
+
 })();
