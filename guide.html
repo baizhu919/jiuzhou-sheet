@@ -4,19 +4,28 @@
 <title>九洲 · 车卡指引</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.step{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 14px;background:#fff}
-.step h3{margin:0 0 6px;font-size:15px;color:var(--accent)}
-.step .why{font-size:12px;color:var(--sub);margin:0 0 8px}
-.step p{margin:6px 0;font-size:13.5px}
-.step ul{margin:6px 0 6px 18px;padding:0}
-.step li{margin:3px 0;font-size:13.5px}
-.ex{background:var(--accent-soft);border-radius:8px;padding:8px 10px;font-size:12.5px;color:#5c4a32;margin-top:8px}
-.check{list-style:none;margin:0;padding:0}
-.check li{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
-.check input{margin-top:3px}
-.sample{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;font-size:13px}
-.sample div{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fcfcfd}
-.sample b{display:block;font-size:11px;color:var(--sub);font-weight:400}
+#openBtn{font:inherit;padding:10px 18px;border-radius:10px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer}
+#wizard{position:fixed;width:420px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 24px 70px rgba(20,24,30,.28);z-index:60;display:none;overflow:hidden}
+#wizard.on{display:block}
+#wzHead{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--accent-soft);border-bottom:1px solid var(--line);cursor:move;user-select:none}
+#wzHead .dot{width:8px;height:8px;border-radius:50%;background:#c9b18a}
+#wzHead b{font-size:13px;color:#5c4a32;flex:1}
+#wzHead button{border:none;background:none;font-size:18px;line-height:1;cursor:pointer;color:#5c4a32}
+#wzBody{padding:16px 18px 8px;max-height:60vh;overflow:auto}
+#wzBody h3{margin:0 0 4px;font-size:16px;color:var(--accent)}
+#wzBody .why{font-size:12px;color:var(--sub);margin:0 0 10px}
+#wzBody p,#wzBody li{font-size:13.5px;line-height:1.65}
+#wzBody ul{margin:6px 0 6px 18px;padding:0}
+#wzBody .ex{background:var(--accent-soft);border-radius:8px;padding:8px 10px;font-size:12.5px;color:#5c4a32;margin-top:10px}
+#wzBody .check{list-style:none;margin:0;padding:0}
+#wzBody .check li{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)}
+#wzFoot{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);background:#fcfcfd}
+#wzProg{font-size:11px;color:var(--sub);flex:1}
+#wzFoot button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
+#wzFoot button.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+#wzFoot button:disabled{opacity:.4;cursor:default}
+.intro{max-width:760px}
+.intro p{font-size:14px;line-height:1.8}
 </style>
 </head><body>
 <header><div class="bar">
@@ -27,111 +36,96 @@
 </div></header>
 
 <main>
-  <section class="wide">
-    <h2>先想一句话</h2>
-    <p>「一个 ______ 的人，因为 ______，走上了非凡的路。」把这两个空填出来，剩下的都是给这句话配数字。</p>
-    <p class="small">不用先想序列和强度。先想他做过什么、怕什么、欠了谁——那才是跑团时用得上的东西。</p>
+  <section class="wide intro">
+    <h2>怎么车一张九洲的卡</h2>
+    <p>「一个 ______ 的人，因为 ______，走上了非凡的路。」先把这句话填出来，剩下的都是给这句话配数字。</p>
+    <p>点下面的按钮，会开一个可以拖动的小窗，一次只讲一步；看完点「下一步」。关掉也不会丢进度。</p>
+    <p style="margin-top:16px"><button id="openBtn">打开车卡指引</button></p>
   </section>
 
   <section class="wide">
-    <h2>八步车卡</h2>
-
-    <div class="step"><h3>1　身份：姓名、称号、出身</h3>
-      <p class="why">称号是别人叫你的名字，不是你的本名。</p>
-      <p>姓名随便起；称号用一两字，比如「白霜」「铁卷」「梦枕」。</p>
-      <p><b>出身</b>决定你会哪些技能，也决定你从哪拿到魔药：官方非凡者、教会执事、世家子弟、野生非凡者、学者／医师、海商／旅行者，或者自己写一个。</p>
-      <div class="ex">例：白霜，白家旁支，出身「世家子弟」——礼仪、说服、格斗起步。</div>
-    </div>
-
-    <div class="step"><h3>2　决定服没服魔药</h3>
-      <p class="why">这是九洲最重要的一次选择。</p>
-      <p><b>没服</b>：位格「未服」，属性上限 4，生命 6＋体魄强度，闪避 10＋体魄强度。你就是个比常人强一点的人，但能自由选路。</p>
-      <p><b>服了</b>：从序列 9 开始，位格「低序列」，上限 5，选一条途径。你会得到那条途径序列 9 的全部能力和 1 个标签。</p>
-      <div class="ex">例：白霜服了「不眠者」途径的序列 9 魔药，位格低序列，标签 1 个。</div>
-    </div>
-
-    <div class="step"><h3>3　分属性：9 点，单项 1–5</h3>
-      <p class="why">体魄管身体，智慧管知识与术法，心魂管意志与灵性。</p>
-      <p>9 点分三项，单项至少 1、最多 5。分完不能反悔，但之后每升一序会再给 2 点。</p>
-      <p>强度不是点数：1–2 得 1，3–4 得 2，5–6 得 3，7–8 得 4，9 得 5。生命、闪避、失控都看强度。</p>
-      <div class="ex">例：体魄 4（强度 2）、智慧 3（强度 2）、心魂 2（强度 1）。</div>
-    </div>
-
-    <div class="step"><h3>4　算衍生值</h3>
-      <ul>
-        <li>生命值 ＝ 6 ＋ 体魄强度</li>
-        <li>灵性上限 ＝ 5 ＋ 智慧 ×2 ＋ 心魂</li>
-        <li>失控上限 ＝ 心魂强度 ×3</li>
-        <li>闪避 ＝ 10 ＋ 体魄强度 − 甲重</li>
-      </ul>
-      <div class="ex">例：生命 8；灵性 5＋6＋2＝13；失控 3；未穿甲闪避 12。</div>
-    </div>
-
-    <div class="step"><h3>5　技能：花掉技能点</h3>
-      <p class="why">技能点 ＝ 体魄 ＋ 智慧。初始都 0，拿点数往上加。</p>
-      <p>21 项技能分四类：身体、头脑、社交、灵性。不知道加什么就先点「神秘学」——认途径、辨魔药、看仪式，九洲最常用的就是它。</p>
-      <div class="ex">例：技能点 7，加神秘学 2、侦查 1、礼仪 1、闪避 1、潜行 1、医术 1。</div>
-    </div>
-
-    <div class="step"><h3>6　武器与护甲</h3>
-      <p>武器给伤害骰：拳 1d3、小刀 1d4、中刀 1d6、弓 1d6、手枪 1d8、步枪 2d6。</p>
-      <p>护甲给抵挡和耐久：轻甲 1/4、中甲 2/6、重甲 3/8；甲越重闪避越低。耐久挨一次掉一点，修理才回。</p>
-      <div class="ex">例：左轮 1d8；轻甲（抵挡 1、耐久 4、闪避不减）。</div>
-    </div>
-
-    <div class="step"><h3>7　写下能力、关系、笔记</h3>
-      <p>把当前序列的能力名抄到「能力或特性」；写下三个关系（欠谁、谁欠你、谁在找你）和一条冒险理由。</p>
-      <p class="why">跑团时 DH 会先看这一栏，而不是你的数值。</p>
-    </div>
-
-    <div class="step"><h3>8　对照检查</h3>
-      <ul class="check">
-        <li><input type="checkbox"> 属性总和是 9，单项 1–5</li>
-        <li><input type="checkbox"> 位格、属性上限、标签数对得上序列</li>
-        <li><input type="checkbox"> 生命值、灵性、失控、闪避都算过</li>
-        <li><input type="checkbox"> 技能加点没超过「体魄＋智慧」</li>
-        <li><input type="checkbox"> 有武器、有护甲（或明确不穿）</li>
-        <li><input type="checkbox"> 三个关系写了至少一个</li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <h2>一张卡长什么样</h2>
-    <div class="sample">
-      <div><b>姓名 / 称号</b>白霜 / 白霜</div>
-      <div><b>出身</b>世家子弟</div>
-      <div><b>途径 / 序列</b>不眠者 / 9</div>
-      <div><b>位格</b>低序列（上限 5）</div>
-      <div><b>属性</b>体魄 4・智慧 3・心魂 2</div>
-      <div><b>生命值</b>8</div>
-      <div><b>灵性</b>13</div>
-      <div><b>失控上限</b>3</div>
-      <div><b>闪避</b>12（轻甲）</div>
-      <div><b>护甲</b>抵挡 1・耐久 4</div>
-      <div><b>阈值</b>6 / 13</div>
-      <div><b>技能点</b>7</div>
-      <div><b>标签</b>1 个（序列 9）</div>
-      <div><b>能力骰</b>1d4</div>
-      <div><b>武器</b>左轮 1d8</div>
-      <div><b>关系</b>欠白家医馆一条命</div>
-    </div>
-  </section>
-
-  <section>
-    <h2>常见问题</h2>
-    <p><b>没服魔药能玩吗？</b>能。上限 4、生命和闪避都不高，但你有自由选途径的机会，也不容易被教会盯上。</p>
-    <p><b>序列怎么升？</b>喝下一序的魔药。魔药要消化，消化满 100 才能喝下一瓶；每升一序给 2 点属性点。</p>
-    <p><b>标签是什么？</b>每个序列一个。一次行动用几个序列的能力，就激活几个，各给 1 枚 d4。</p>
-    <p><b>一定要打吗？</b>不一定。九洲的团更多是查、谈、逃；战斗一次掉 1–3 点生命，挨不了几下。</p>
+    <h2>车卡时手边要有的东西</h2>
+    <p>角色卡（网页版）、二十面骰、四到六颗四面骰、几颗六面骰。规则书用来查具体条目，指引只带你走完流程。</p>
+    <p class="small">没服魔药的调查员、序列 9 的非凡者，都可以从第一步开始。</p>
   </section>
 </main>
-<footer>车卡指引 · 与《九洲 TRPG 规则全书》同步；数值有出入以规则书为准。</footer>
+
+<div id="wizard">
+  <div id="wzHead"><span class="dot"></span><b>车卡指引</b><button id="wzClose" title="关闭">×</button></div>
+  <div id="wzBody"></div>
+  <div id="wzFoot">
+    <span id="wzProg"></span>
+    <button id="wzPrev">上一步</button>
+    <button id="wzNext" class="primary">下一步</button>
+  </div>
+</div>
+
 <script>
-document.querySelectorAll('.check input').forEach(function(c,i){
-  var key='jz-guide-'+i;
-  c.checked = localStorage.getItem(key)==='1';
-  c.addEventListener('change', function(){ localStorage.setItem(key, c.checked?'1':'0'); });
+var STEPS = [
+ {t:'身份：姓名、称号、出身', w:'称号是别人叫你的名字，不是本名。',
+  b:'<p>姓名随便起；称号用一两字，比如「白霜」「铁卷」「梦枕」。</p><p><b>出身</b>决定你会哪些技能，也决定你从哪拿到魔药：官方非凡者、教会执事、世家子弟、野生非凡者、学者／医师、海商／旅行者，或者自己写一个。</p>',
+  ex:'例：白霜，白家旁支，出身「世家子弟」——礼仪、说服、格斗起步。'},
+ {t:'决定服没服魔药', w:'这是九洲最重要的一次选择。',
+  b:'<p><b>没服</b>：位格「未服」，属性上限 4，生命 6＋体魄强度，闪避 10＋体魄强度。你就是个比常人强一点的人，但能自由选路。</p><p><b>服了</b>：从序列 9 开始，位格「低序列」，上限 5，选一条途径。你会得到那条途径序列 9 的全部能力和 1 个标签。</p>',
+  ex:'例：白霜服了「不眠者」途径的序列 9 魔药，位格低序列，标签 1 个。'},
+ {t:'分属性：9 点，单项 1–5', w:'体魄管身体，智慧管知识与术法，心魂管意志与灵性。',
+  b:'<p>9 点分三项，单项至少 1、最多 5。分完不能反悔，但之后每升一序会再给 2 点。</p><p>强度不是点数：1–2 得 1，3–4 得 2，5–6 得 3，7–8 得 4，9 得 5。</p>',
+  ex:'例：体魄 4（强度 2）、智慧 3（强度 2）、心魂 2（强度 1）。'},
+ {t:'算衍生值', w:'这几项影响你挨几下、还能不能出手。',
+  b:'<ul><li>生命值 ＝ 6 ＋ 体魄强度</li><li>灵性上限 ＝ 5 ＋ 智慧 ×2 ＋ 心魂</li><li>失控上限 ＝ 心魂强度 ×3</li><li>闪避 ＝ 10 ＋ 体魄强度 − 甲重</li></ul>',
+  ex:'例：生命 8；灵性 5＋6＋2＝13；失控 3；未穿甲闪避 12。'},
+ {t:'技能：花掉技能点', w:'技能点 ＝ 体魄 ＋ 智慧。初始都 0。',
+  b:'<p>21 项技能分四类：身体、头脑、社交、灵性。不知道加什么就先点「神秘学」——认途径、辨魔药、看仪式，九洲最常用的就是它。</p>',
+  ex:'例：技能点 7，加神秘学 2、侦查 1、礼仪 1、闪避 1、潜行 1、医术 1。'},
+ {t:'武器与护甲', w:'武器给伤害骰，护甲给抵挡与耐久。',
+  b:'<p>武器：拳 1d3、小刀 1d4、中刀 1d6、弓 1d6、手枪 1d8、步枪 2d6。</p><p>护甲：轻甲 1/4、中甲 2/6、重甲 3/8；甲越重闪避越低。耐久挨一次掉一点，修理才回。</p>',
+  ex:'例：左轮 1d8；轻甲（抵挡 1、耐久 4、闪避不减）。'},
+ {t:'写下能力、关系、笔记', w:'跑团时 DH 先看这一栏，而不是你的数值。',
+  b:'<p>把当前序列的能力名抄到「能力或特性」；写下三个关系（欠谁、谁欠你、谁在找你）和一条冒险理由。</p>',
+  ex:'例：欠白家医馆一条命；答应替闻家送一封信；有个同门在外头找他。'},
+ {t:'对照检查', w:'最后过一遍，缺什么补什么。',
+  b:'<ul class="check"><li>☐ 属性总和是 9，单项 1–5</li><li>☐ 位格、属性上限、标签数对得上序列</li><li>☐ 生命值、灵性、失控、闪避都算过</li><li>☐ 技能加点没超过「体魄＋智慧」</li><li>☐ 有武器、有护甲（或明确不穿）</li><li>☐ 三个关系写了至少一个</li></ul>',
+  ex:'都打勾了，就可以把卡交给 DH 了。'}
+];
+var idx = Number(localStorage.getItem('jz-guide-step')||0);
+if (isNaN(idx) || idx<0 || idx>=STEPS.length) idx = 0;
+var wz = document.getElementById('wizard');
+
+function render(){
+  var s = STEPS[idx];
+  document.getElementById('wzBody').innerHTML = '<h3>'+(idx+1)+'. '+s.t+'</h3><div class="why">'+s.w+'</div>'+s.b+(s.ex?'<div class="ex">'+s.ex+'</div>':'');
+  document.getElementById('wzProg').textContent = (idx+1)+' / '+STEPS.length;
+  document.getElementById('wzPrev').disabled = idx===0;
+  document.getElementById('wzNext').textContent = idx===STEPS.length-1 ? '完成' : '下一步';
+  localStorage.setItem('jz-guide-step', String(idx));
+}
+function openWz(){ wz.classList.add('on'); render(); if(!wz.dataset.pos){ place(); } }
+function closeWz(){ wz.classList.remove('on'); }
+function place(){
+  wz.style.left = Math.max(8, (window.innerWidth-wz.offsetWidth)/2)+'px';
+  wz.style.top = '90px';
+}
+document.getElementById('openBtn').onclick = openWz;
+document.getElementById('wzClose').onclick = closeWz;
+document.getElementById('wzPrev').onclick = function(){ if(idx>0){ idx--; render(); } };
+document.getElementById('wzNext').onclick = function(){ if(idx<STEPS.length-1){ idx++; render(); } else { closeWz(); } };
+
+// 拖动
+var drag=null;
+var head=document.getElementById('wzHead');
+head.addEventListener('pointerdown', function(e){
+  if(e.target.tagName==='BUTTON') return;
+  drag={x:e.clientX, y:e.clientY, l:wz.offsetLeft, t:wz.offsetTop};
+  head.setPointerCapture(e.pointerId);
 });
+head.addEventListener('pointermove', function(e){
+  if(!drag) return;
+  var l=drag.l+(e.clientX-drag.x), t=drag.t+(e.clientY-drag.y);
+  l=Math.max(4, Math.min(window.innerWidth-wz.offsetWidth-4, l));
+  t=Math.max(4, Math.min(window.innerHeight-60, t));
+  wz.style.left=l+'px'; wz.style.top=t+'px';
+});
+head.addEventListener('pointerup', function(){ drag=null; });
+window.addEventListener('resize', function(){ if(wz.classList.contains('on') && !wz.dataset.pos) place(); });
 </script>
 </body></html>
