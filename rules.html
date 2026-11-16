@@ -33,7 +33,7 @@
   <section>
     <h2>成功等级</h2>
     <table><thead><tr><th>超出挑战值</th><th>成功等级</th></tr></thead><tbody>
-    <tr><td>1–5</td><td>1</td></tr><tr><td>6–10</td><td>2</td></tr><tr><td>11–15</td><td>3</td></tr><tr><td>每再 +5</td><td>+1</td></tr></tbody></table>
+    <tr><td>1–4</td><td>0（勉强成功）</td></tr><tr><td>5–9</td><td>1</td></tr><tr><td>10–14</td><td>2</td></tr><tr><td>15–19</td><td>3</td></tr><tr><td>每再 +5</td><td>+1</td></tr></tbody></table>
     <p class="small">容易＝要求 1 级｜中等＝2 级｜非常困难＝3 级。</p>
   </section>
 
@@ -113,7 +113,7 @@ document.getElementById('roll').onclick = function(){
   let extras=[];
   for(let i=0;i<vog;i++){ const r=d(6); extras.push(r); total+=r; }
   const over=total-dc;
-  let lv=0; if(over>0) lv=Math.ceil(over/5);
+  let lv=0; if(over>0) lv=Math.floor(over/5);
   let note='';
   if(base===20 && over>0){ lv+=1; note='定骰 20：成功等级 +1'; }
   if(base===1 && over>0){ lv-=1; note='定骰 1：成功等级 −1'; }
