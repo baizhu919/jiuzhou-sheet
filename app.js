@@ -11,7 +11,7 @@ const POWER = s => s>=8?1:s>=5?2:s>=3?3:s>=1?4:5;
 const $ = q => document.querySelector(q);
 const $$ = q => Array.from(document.querySelectorAll(q));
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
-function blank(){ const sk={}; SKILLS.forEach(function(p){ sk[p[0]]={grow:0,alloc:0}; }); return {name:"",title:"",gender:"",age:"",origin:"平民",faction:"",continent:"华胥川",faith:"",path:"",seq:"",pollution:0,digest:0,attr:{body:3,wits:3,soul:3},loss:0,vogue:10,props:0,armorNote:"",lifeLost:0,armor:"无甲",armorDur:0,weapons:[],skills:sk,myAbilities:"",equip:[],inv:[],rel:[],beasts:[],profile:{desc:"",traits:"",notes:""}}; }
+function blank(){ const sk={}; SKILLS.forEach(function(p){ sk[p[0]]={grow:0,alloc:0}; }); return {name:"",title:"",gender:"",age:"",origin:"平民",faction:"",continent:"华胥川",faith:"",path:"",seq:"",pollution:0,digest:0,attr:{body:3,wits:3,soul:3},loss:0,vogue:10,props:0,armorNote:"",lifeLost:0,armor:"无甲",armorDur:0,money:{gold:0,silver:0,copper:0},weapons:[],skills:sk,myAbilities:"",equip:[],inv:[],rel:[],beasts:[],profile:{desc:"",traits:"",notes:""}}; }
 function normalize(o){
   if(!o || typeof o!=="object") return blank();
   if(o.background && !o.profile){ o.profile={desc:"",traits:"",notes:o.background}; }
@@ -21,6 +21,7 @@ function normalize(o){
   ['equip','inv','rel','beasts','weapons'].forEach(function(k){ if(!Array.isArray(o[k])) o[k]=[]; });
   if(!o.skills || typeof o.skills!=="object") o.skills={};
   if(!o.profile) o.profile={desc:"",traits:"",notes:""};
+  if(!o.money) o.money={gold:0,silver:0,copper:0};
   return o;
 }
 let SLOTS = loadSlots(); let S = normalize(currentSlot().state);
@@ -89,6 +90,7 @@ function status(){ var b=str(S.attr.body), w=Number(S.attr.wits), so=str(S.attr.
   if(S.seq===""){ $("#outTier").value="未服"; $("#outCap").value="—"; $("#outPower").value="—"; }
   else{ $("#outTier").value=TIER[S.seq]||""; $("#outCap").value=CAP[S.seq]||""; $("#outPower").value=POWER(Number(S.seq)); }
   var durEl=$('[data-k="armorDur"]'); if(durEl) durEl.value = S.armorDur;
+  var mo=$("#outMoney"); if(mo){ var m=S.money||{}; mo.value=(Number(m.gold)||0)*100+(Number(m.silver)||0)*10+(Number(m.copper)||0); }
 }
 function skills(){ var pool=Number(S.attr.body)+Number(S.attr.wits); var used=0; var h1="", h2=""; SKILLS.forEach(function(p,idx){ var n=p[0], a=p[1]; var sk=S.skills[n]||(S.skills[n]={grow:0,alloc:0}); used += Number(sk.alloc)||0; var row="<tr><td class=\"l\">"+n+"</td><td>"+a+"</td><td>0</td><td><input type=\"number\" min=\"0\" value=\""+(sk.grow||0)+"\" data-sk=\""+n+"\" data-f=\"grow\" style=\"width:60px\"></td><td><input type=\"number\" min=\"0\" value=\""+(sk.alloc||0)+"\" data-sk=\""+n+"\" data-f=\"alloc\" style=\"width:60px\"></td><td>"+((Number(sk.grow)||0)+(Number(sk.alloc)||0))+"</td></tr>"; if(idx<11) h1+=row; else h2+=row; }); $("#skillBody").innerHTML=h1; $("#skillBody2").innerHTML=h2; var left=pool-used; var el=$("#skillLeft"); el.textContent="剩余加点 "+left; el.style.color= left<0?"#b4453c":""; $$("[data-sk]").forEach(function(inp){ inp.addEventListener("input", function(){ S.skills[inp.dataset.sk][inp.dataset.f]=Number(inp.value)||0; render(); scheduleSave(); }); }); }
 function abilities(){ var list=$("#abilityList"); if(!S.path || S.seq===""){ list.innerHTML="<p class=\"hint\">先在 ② 选途径与序列。</p>"; $("#abilCount").textContent="0"; $("#seqName").textContent=""; return; } var cur=Number(S.seq); var rows=D.entries.filter(function(e){ return e.p===S.path && e.s>=cur; }).sort(function(a,b){ return b.s-a.s; }); var h=""; rows.forEach(function(e){ h += "<div class=\"abil\"><h3>序列 "+e.s+" · "+esc(e.n)+"<span class=\"pill\">"+esc(e.t||e.p)+"</span></h3><div class=\"meta\">能力条目 · 伤害骰 "+(ABIL_DICE[e.s]||"—")+"</div><p>"+esc(e.a).replace(/\n/g,"<br>")+"</p>"+(e.m?"<div class=\"mat\">魔药主材料："+esc(e.m)+"</div>":"")+"</div>"; }); list.innerHTML=h; $("#abilCount").textContent=rows.length+" 段"; $("#seqName").textContent = rows.length ? (rows[rows.length-1].n+" → "+rows[0].n) : ""; }
