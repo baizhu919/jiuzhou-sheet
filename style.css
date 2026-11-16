@@ -97,3 +97,6 @@ footer{max-width:1280px;margin:0 auto 40px;padding:0 20px;color:var(--sub);font-
 #wzFoot button{font:inherit;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
 #wzFoot button.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
 #wzFoot button:disabled{opacity:.4;cursor:default}
+
+.boxes{display:flex;gap:6px;align-items:center;height:30px}
+.boxes input{width:16px;height:16px;margin:0;accent-color:#8a6a3d}
