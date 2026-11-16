@@ -116,7 +116,7 @@ var head=document.getElementById('wzHead');
 head.addEventListener('pointerdown', function(e){
   if(e.target.tagName==='BUTTON') return;
   drag={x:e.clientX, y:e.clientY, l:wz.offsetLeft, t:wz.offsetTop};
-  head.setPointerCapture(e.pointerId);
+  try{ head.setPointerCapture(e.pointerId); }catch(err){}
 });
 head.addEventListener('pointermove', function(e){
   if(!drag) return;
