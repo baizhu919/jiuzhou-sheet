@@ -27,7 +27,7 @@
       <label>&nbsp;<button id="roll" class="primary">掷一次</button></label>
     </div>
     <div class="out" id="result">填好上面的数，点「掷一次」。</div>
-    <p class="small">一次检定 ＝ 1d20（定骰）＋ 若干 d4（加骰）＋ 若干 d6（时髦骰）＞ 挑战值。定骰 20：通过则成功等级 +1；定骰 1：通过则成功等级 −1。</p>
+    <p class="small">一次检定 ＝ 1d20（定骰）＋ 若干 d4（加骰）＋ 若干 d6（时髦骰）＞ 挑战值。</p>
   </section>
 
   <section>
@@ -114,13 +114,10 @@ document.getElementById('roll').onclick = function(){
   for(let i=0;i<vog;i++){ const r=d(6); extras.push(r); total+=r; }
   const over=total-dc;
   let lv=0; if(over>0) lv=Math.floor(over/5);
-  let note='';
-  if(base===20 && over>0){ lv+=1; note='定骰 20：成功等级 +1'; }
-  if(base===1 && over>0){ lv-=1; note='定骰 1：成功等级 −1'; }
   document.getElementById('result').innerHTML =
     '定骰 <b>'+base+'</b>　加骰 ['+(adds.join(', ')||'无')+']　时髦 ['+(extras.join(', ')||'无')+']<br>'+
     '总值 <b>'+total+'</b>　挑战值 '+dc+'　超出 '+(over>0?over:0)+'<br>'+
-    (over>0 ? '成功，等级 <b>'+lv+'</b>' : '失败') + (note? '<br><span class="small">'+note+'</span>' : '');
+    (over>0 ? '成功，等级 <b>'+lv+'</b>' : '失败') ;
 };
 </script>
 </body></html>
